@@ -1,0 +1,13 @@
+@import url("./default.css");
+
+article p {
+  opacity: 1;
+}
+
+.old {
+  transition: 1s 16s;
+
+  opacity: 0;
+  padding: 0 1em;
+  max-height: 0;
+}

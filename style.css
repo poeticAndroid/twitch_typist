@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+body {
+  font-family: sans-serif;
+  font-size: 20px;
+/*   overflow: hidden; */
+}
+form,
+input,
+select,
+textarea,
+button {
+  border: 1px inset;
+  padding: 0.5em;
+}
+
+label {
+  display: inline-block;
+  min-width: 6em;
+}
+
+header,
+form {
+  display: none;
+}
+.start header,
+.start form {
+  display: block;
+}

@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Emoji");
+
+body {
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+  font-family: monospace;
+}
+
+a {
+  color: #def;
+}
+
+article {
+  background-color: rgba(0, 0, 0, 87.5%);
+}
+article p {
+  transition-duration: 0.25s;
+  transition-timing-function: linear;
+  clear: both;
+  padding: 0.25em 1em;
+  overflow: hidden;
+}
+
+img {
+  vertical-align: middle;
+  max-height: 2em;
+}
+
+.new {
+  padding: 0em 1em;
+  max-height: 0;
+}
+.avatar {
+  font-family: "Noto Emoji";
+}
+.big.avatar {
+  display: inline-block;
+  min-width: 1.5em;
+  font-size: 1.8em;
+  text-align: center;
+  float: left;
+}
+.mention {
+  text-wrap: nowrap;
+}
