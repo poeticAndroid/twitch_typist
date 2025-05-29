@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="//twitch.tv/favicon.ico" type="image/x-icon" />
 
-    <title>Twitch chat!</title>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" href="//twitch.tv/favicon.ico" type="image/x-icon" />
 
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="style.css" />
-    <style id="userStyle"></style>
+  <title>Twitch typist!</title>
 
-    <!-- import the webpage's javascript file -->
-    <script>
-      if (location.protocol !== "https:") location.protocol = "https:"
-      if (location.pathname.includes("/index.html")) location.pathname = location.pathname.replace("/index.html", "/.")
-      else if (location.pathname.substr(-1) !== "/") location.pathname += "/"
-    </script>
+  <!-- import the webpage's stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  <style id="userStyle"></style>
 
-    <script src="tmi.min.js"></script>
-    <script src="howler.min.js"></script>
-    <script src="script.js" defer></script>
-  </head>
-  <body class="start">
-    <header>
-      <h1>Twitch chat!</h1>
-    </header>
-    <form>
-      <p title="Twitch username or URL">
-        <label>Channel:</label>
-        <input name="c" list="clist" />
-        <datalist id="clist"></datalist>
-      </p>
-      <!-- <p>
+  <!-- import the webpage's javascript file -->
+  <script>
+    if (location.protocol !== "https:") location.protocol = "https:"
+    if (location.pathname.includes("/index.html")) location.pathname = location.pathname.replace("/index.html", "/.")
+    else if (location.pathname.substr(-1) !== "/") location.pathname += "/"
+  </script>
+
+  <script src="tmi.min.js"></script>
+  <script src="howler.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
+
+<body class="start">
+  <header>
+    <h1>Twitch typist!</h1>
+  </header>
+  <form>
+    <p title="Twitch username or URL">
+      <label>Channel:</label>
+      <input name="c" list="clist" />
+      <datalist id="clist"></datalist>
+    </p>
+    <!-- <p>
         <label>Username*:</label>
         <input id="usrInp" />
       </p>
@@ -41,48 +43,49 @@
         <label>Password*:</label>
         <input type="password" id="pwInp" />
       </p> -->
-      <p title="How fast to type out each message">
-        <label>Speed:</label>
-        <input type="number" name="spd" title="Characters per second" />
-      </p>
-      <p title="Maximum volume for typing noises">
-        <label>Volume:</label>
-        <input type="number" name="vol" title="Percentage" />
-      </p>
-      <p title="Typing noises fade out while typing">
-        <label>Fade out:</label>
-        <input type="number" name="fot" title="Duration in seconds" />
-      </p>
-      <p title="Typing noises silently fade back in when idle">
-        <label>Fade in:</label>
-        <input type="number" name="fit" title="Duration in seconds" />
-      </p>
-      <p title="Example CSS to get you started">
-        <label>CSS preset:</label>
-        <select id="cssPreset">
-          <option></option>
-          <option>@import url("default.css");</option>
-          <option>@import url("top.css");</option>
-          <option>@import url("bottom.css");</option>
-          <option>@import url("default.css");.big.avatar{display:none;}.avatar{display:none;}</option>
-          <option>@import url("top.css");.old{transition-delay:1s;}</option>
-        </select>
-      </p>
-      <p title="Custom CSS for the nerds">
-        <label>CSS:</label>
-        <textarea name="css"></textarea>
-      </p>
-      <p>
-        <input type="submit" value="Start" />
-        <input type="reset" id="resetBtn" />
-      </p>
-      <!-- <p>
+    <p title="How fast to type out each message">
+      <label>Speed:</label>
+      <input type="number" name="spd" title="Characters per second" />
+    </p>
+    <p title="Maximum volume for typing noises">
+      <label>Volume:</label>
+      <input type="number" name="vol" title="Percentage" />
+    </p>
+    <p title="Typing noises fade out while typing">
+      <label>Fade out:</label>
+      <input type="number" name="fot" title="Duration in seconds" />
+    </p>
+    <p title="Typing noises silently fade back in when idle">
+      <label>Fade in:</label>
+      <input type="number" name="fit" title="Duration in seconds" />
+    </p>
+    <p title="Example CSS to get you started">
+      <label>CSS preset:</label>
+      <select id="cssPreset">
+        <option></option>
+        <option>@import url("default.css");</option>
+        <option>@import url("top.css");</option>
+        <option>@import url("bottom.css");</option>
+        <option>@import url("default.css");.big.avatar{display:none;}.avatar{display:none;}</option>
+        <option>@import url("top.css");.old{transition-delay:1s;}</option>
+      </select>
+    </p>
+    <p title="Custom CSS for the nerds">
+      <label>CSS:</label>
+      <textarea name="css"></textarea>
+    </p>
+    <p>
+      <input type="submit" value="Start" />
+      <input type="reset" id="resetBtn" />
+    </p>
+    <!-- <p>
         <h6>*optional</h6>
       </p> -->
-    </form>
-    <audio id="kbdSnd" src="./assets/keyboard.wav" autoplay></audio>
-    <audio id="spcSnd" src="./assets/space.wav" autoplay></audio>
-    <audio id="entSnd" src="./assets/enter.wav" autoplay></audio>
-    <article id="chat"></article>
-  </body>
+  </form>
+  <audio id="kbdSnd" src="./assets/keyboard.wav" autoplay></audio>
+  <audio id="spcSnd" src="./assets/space.wav" autoplay></audio>
+  <audio id="entSnd" src="./assets/enter.wav" autoplay></audio>
+  <article id="chat"></article>
+</body>
+
 </html>
