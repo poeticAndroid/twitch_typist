@@ -53,6 +53,7 @@ function init() {
   autoFillTO = setInterval(autoFill, 40)
 
   if (!location.search) return
+  document.body.style.overflow = "hidden"
 
   let params = new URLSearchParams(location.search)
   let chan = params.get("c").toLocaleLowerCase()
@@ -83,8 +84,10 @@ function init() {
     entSnd.volume = maxvol
     skipUpdate = 8
     scrollEnabled = false
+    document.body.style.overflow = null
     setTimeout((e) => {
       scrollEnabled = true
+      document.body.style.overflow = "hidden"
     }, 1024 * 64)
   })
 
@@ -208,9 +211,9 @@ function update() {
     let color = colorToHex(colorHash(tags.username))
     lastChars = htmlChars(
       `<span class="big avatar" style="color:#${color};">${emojiHash(tags.username)}</span>` +
-        // `<img class="avatar" src="https://api.dicebear.com/9.x/lorelei-neutral/svg?seed=${tags.username}&flip=false&backgroundColor=transparent&eyebrowsColor=${color}&eyesColor=${color}&frecklesColor=${color}&mouthColor=${color}&noseColor=${color}&glassesColor=777777" />` +
-        `<strong style="color:#${color};">${tags["display-name"] || tags.username}${tags["message-type"] == "action" ? "</strong> <em>" : ":</strong> "}` +
-        parseEmotes(queue[0].message, queue[0].tags.emotes)
+      // `<img class="avatar" src="https://api.dicebear.com/9.x/lorelei-neutral/svg?seed=${tags.username}&flip=false&backgroundColor=transparent&eyebrowsColor=${color}&eyesColor=${color}&frecklesColor=${color}&mouthColor=${color}&noseColor=${color}&glassesColor=777777" />` +
+      `<strong style="color:#${color};">${tags["display-name"] || tags.username}${tags["message-type"] == "action" ? "</strong> <em>" : ":</strong> "}` +
+      parseEmotes(queue[0].message, queue[0].tags.emotes)
     )
     queue.shift()
   } else if (sndv < maxvol) {
