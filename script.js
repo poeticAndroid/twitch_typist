@@ -144,6 +144,14 @@ function init() {
   saveData()
   document.body.classList.remove("start")
   setInterval(update, interval)
+
+  setTimeout(() => {
+    queue.push({
+      user: { username: "info" },
+      tags: { username: "info" },
+      message: `Like this chat widget?\nGet it for your own stream at ${location.toString().slice(0, location.toString().lastIndexOf("/"))}/`,
+    })
+  }, 1024 * 64 * 8)
 }
 
 function autoFill() {
