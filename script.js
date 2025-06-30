@@ -5,7 +5,7 @@ const chatContainer = document.getElementById("chat"),
   spcSnd = document.getElementById("spcSnd"),
   entSnd = document.getElementById("entSnd")
 
-let data = { clist: ["purradisetv"], spd: 25, vol: 50, fot: 10, fit: 60, css: '@import url("./default.css");' },
+let data = { clist: ["alveussanctuary"], spd: 25, vol: 50, fot: 10, fit: 60, css: '@import url("./default.css");' },
   autoFillTO,
   emotes = {},
   users = {},
