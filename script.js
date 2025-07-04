@@ -103,8 +103,8 @@ function init() {
     data.clist = data.clist.filter((id) => id != chan)
     data.clist.unshift(chan)
     queue.push({
-      user: { username: "info" },
-      tags: { username: "info" },
+      user: { username: "[info]" },
+      tags: { username: "[info]" },
       message: `Connected to @${chan}`,
     })
     saveData()
@@ -147,9 +147,9 @@ function init() {
 
   setTimeout(() => {
     queue.push({
-      user: { username: "info" },
-      tags: { username: "info" },
-      message: `Like this chat widget?\nGet it for your own stream at ${location.toString().slice(0, location.toString().lastIndexOf("/"))}/`,
+      user: { username: "[info]" },
+      tags: { username: "[info]" },
+      message: `Like this chat widget?\nGet it for your own stream at ${location.toString().slice(0, location.toString().indexOf("/", 8)) + location.pathname}/`,
     })
   }, 1024 * 64 * 8)
 }
