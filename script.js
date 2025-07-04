@@ -146,12 +146,16 @@ function init() {
   setInterval(update, interval)
 
   setTimeout(() => {
+    loadData()
+    data.shameless_plug_delay = data.shameless_plug_delay || 1
+    data.shameless_plug_delay *= 2
+    saveData()
     queue.push({
       user: { username: "[info]" },
       tags: { username: "[info]" },
       message: `Like this chat widget?\nGet it for your own stream at ${location.toString().slice(0, location.toString().indexOf("/", 8)) + location.pathname}/`,
     })
-  }, 1024 * 64 * 8)
+  }, 1024 * 64 * data.shameless_plug_delay)
 }
 
 function autoFill() {
