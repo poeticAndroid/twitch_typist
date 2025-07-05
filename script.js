@@ -240,15 +240,17 @@ function parseEmotes(msg, ems) {
   for (let c of _s) msg.push(c)
   let startTag = -1
   let endTag = ""
+  let endChar = /\S/
   for (let i = 0; i < msg.length; i++) {
     msg[i] = escapeHtml(msg[i])
     if (endTag) {
-      if (msg[i]?.trim()) {
+      if (msg[i]?.match(endChar)) {
         msg[startTag] += msg[i]
       } else {
         msg[startTag] += '">'
         msg[i - 1] += endTag
         endTag = ""
+        endChar = /\S/
       }
     }
     if (msg[i] == "@" && !msg[i - 1]?.trim()) {
@@ -257,6 +259,7 @@ function parseEmotes(msg, ems) {
       for (let j = i + 1; msg[j]?.trim(); j++) name += msg[j]
       msg[startTag] = `<span class="mention" style="color:${colorHash(name)};"><span class="avatar">${emojiHash(name)}</span><span title="`
       endTag = "</span></span>"
+      endChar = /[a-zA-Z_0-9]/
     }
     if (msg[i] == ":" && msg[i + 1] == "/" && msg[i + 2] == "/") {
       startTag = i
