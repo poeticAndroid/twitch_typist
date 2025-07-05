@@ -256,10 +256,10 @@ function parseEmotes(msg, ems) {
     if (msg[i] == "@" && !msg[i - 1]?.trim()) {
       startTag = i
       let name = ""
-      for (let j = i + 1; msg[j]?.trim(); j++) name += msg[j]
+      tagChar = /[a-zA-Z_0-9]/
+      for (let j = i + 1; msg[j]?.match(tagChar); j++) name += msg[j]
       msg[startTag] = `<span class="mention" style="color:${colorHash(name)};"><span class="avatar">${emojiHash(name)}</span><span title="`
       endTag = "</span></span>"
-      tagChar = /[a-zA-Z_0-9]/
     }
     if (msg[i] == ":" && msg[i + 1] == "/" && msg[i + 2] == "/") {
       startTag = i
