@@ -153,7 +153,7 @@ function init() {
     queue.push({
       user: { username: "[info]" },
       tags: { username: "[info]" },
-      message: `This chat widget is powered by Twitch Typist by @poeticAndroid! Get it for your own stream at ${location.toString().slice(0, location.toString().indexOf("/", 8)) + location.pathname}`,
+      message: `This chat widget is powered by Twitch Typist, made by @poeticAndroid! Get it for your own stream at ${location.toString().slice(0, location.toString().indexOf("/", 8)) + location.pathname}`,
     })
   }, 1024 * 64 * data.shameless_plug_delay)
 }
