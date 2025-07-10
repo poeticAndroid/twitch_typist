@@ -319,17 +319,23 @@ function resetData() {
 }
 
 function colorHash(seed) {
-  seed = seed.toLocaleLowerCase().trim()
-  let n = seed.length
-  for (let c of seed) n += c.codePointAt() * c.codePointAt()
-  return `hsl(${n % 360}deg, 50%, 50%)`
+  return `hsl(${hash(seed) % 360}deg, 50%, 50%)`
 }
 
 function emojiHash(seed) {
+  return emojis[hash(seed) % emojis.length]
+}
+
+function hash(seed) {
   seed = seed.toLocaleLowerCase().trim()
   let n = seed.length
-  for (let c of seed) n += c.codePointAt() * c.codePointAt()
-  return emojis[n % emojis.length]
+  let lc = 1
+  for (let c of seed) {
+    c = c.codePointAt()
+    n += c * lc
+    lc = c
+  }
+  return n
 }
 
 const _g = document.createElement("canvas").getContext("2d")
