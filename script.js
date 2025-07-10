@@ -62,6 +62,7 @@ function init() {
   data.fot = parseFloat(params.get("fot")) || data.fot
   data.fit = parseFloat(params.get("fit")) || data.fit
   data.css = params.get("css") || data.css
+  data.shameless_plug_delay = parseFloat(params.get("shameless_plug_delay")) || data.shameless_plug_delay || 1
 
   if (chan.includes("?")) chan = chan.slice(0, chan.indexOf("?"))
   if (chan.includes("/")) chan = chan.slice(chan.lastIndexOf("/") + 1)
@@ -147,7 +148,6 @@ function init() {
 
   setTimeout(() => {
     loadData()
-    data.shameless_plug_delay = data.shameless_plug_delay || 1
     data.shameless_plug_delay *= 2
     saveData()
     queue.push({
@@ -328,7 +328,7 @@ function emojiHash(seed) {
 
 function hash(seed) {
   seed = seed.toLocaleLowerCase().trim()
-  let n = seed.length
+  let n = 42
   let lc = 1
   for (let c of seed) {
     c = c.codePointAt()
