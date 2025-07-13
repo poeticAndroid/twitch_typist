@@ -328,7 +328,7 @@ function emojiHash(seed) {
 
 function hash(seed) {
   seed = seed.toLocaleLowerCase().trim()
-  let n = 42
+  let n = new Date().getFullYear()
   let lc = 1
   for (let c of seed) {
     c = c.codePointAt()
