@@ -15,7 +15,7 @@
 
   <!-- import the webpage's javascript file -->
   <script>
-    if (location.protocol !== "https:") location.protocol = "https:"
+    // if (location.protocol !== "https:") location.protocol = "https:"
     if (location.pathname.includes("/index.html")) location.pathname = location.pathname.replace("/index.html", "/.")
     else if (location.pathname.substr(-1) !== "/") location.pathname += "/"
   </script>
@@ -58,6 +58,11 @@
     <p title="Typing noises silently fade back in when idle">
       <label>Fade in:</label>
       <input type="number" name="fit" title="Duration in seconds" />
+    </p>
+    <p title="Keep the device awake">
+      <label for="woke">Stay awake:</label>
+      <input type="checkbox" name="woke" id="wokeChk" />
+      <label for="wokeChk">Enabled</label>
     </p>
     <p title="Example CSS to get you started">
       <label>CSS preset:</label>

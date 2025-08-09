@@ -62,6 +62,7 @@ function init() {
   data.fot = parseFloat(params.get("fot")) || data.fot
   data.fit = parseFloat(params.get("fit")) || data.fit
   data.css = params.get("css") || data.css
+  data.woke = !!(params.get("woke"))
   data.shameless_plug_delay = parseFloat(params.get("shameless_plug_delay")) || data.shameless_plug_delay || 1
 
   if (chan.includes("?")) chan = chan.slice(0, chan.indexOf("?"))
@@ -90,6 +91,7 @@ function init() {
       scrollEnabled = true
       document.body.style.overflow = "hidden"
     }, 1024 * 64)
+    if (data.woke) navigator.wakeLock.request("screen")
   })
 
   const client = new tmi.Client({
@@ -166,6 +168,7 @@ function autoFill() {
   document.getElementsByName("vol")[0].value = data.vol
   document.getElementsByName("fit")[0].value = data.fit
   document.getElementsByName("fot")[0].value = data.fot
+  document.getElementsByName("woke")[0].checked = data.woke
   document.getElementsByName("css")[0].value = data.css
   kbdSnd.volume = spcSnd.volume = entSnd.volume = 0
 }
