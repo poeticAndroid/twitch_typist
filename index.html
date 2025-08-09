@@ -45,19 +45,19 @@
       </p> -->
     <p title="How fast to type out each message">
       <label>Speed:</label>
-      <input type="number" name="spd" title="Characters per second" />
+      <input type="number" min="0" name="spd" title="Characters per second" />
     </p>
     <p title="Maximum volume for typing noises">
       <label>Volume:</label>
-      <input type="number" name="vol" title="Percentage" />
+      <input type="number" min="0" max="100" name="vol" title="Percentage" />
     </p>
     <p title="Typing noises fade out while typing">
       <label>Fade out:</label>
-      <input type="number" name="fot" title="Duration in seconds" />
+      <input type="number" min="0" name="fot" title="Duration in seconds" />
     </p>
     <p title="Typing noises silently fade back in when idle">
       <label>Fade in:</label>
-      <input type="number" name="fit" title="Duration in seconds" />
+      <input type="number" min="0" name="fit" title="Duration in seconds" />
     </p>
     <p title="Keep the device awake">
       <label for="woke">Stay awake:</label>

@@ -23,8 +23,12 @@ form {
   max-width: 32em;
 }
 
+select,
 textarea {
   width: calc(100% - 16em);
+}
+
+textarea {
   height: 8em;
 }
 
