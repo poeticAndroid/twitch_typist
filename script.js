@@ -5,7 +5,7 @@ const chatContainer = document.getElementById("chat"),
   spcSnd = document.getElementById("spcSnd"),
   entSnd = document.getElementById("entSnd")
 
-let data = { clist: ["alveussanctuary"], spd: 25, vol: 50, fot: 10, fit: 60, css: '@import url("./default.css");', shameless_plug_delay: 1 },
+let data = { clist: ["alveussanctuary"], spd: 25, exp: 15, vol: 50, fot: 10, fit: 60, css: '@import url("./default.css");', shameless_plug_delay: 1 },
   autoFillTO,
   emotes = {},
   users = {},
@@ -58,6 +58,7 @@ function init() {
   let params = new URLSearchParams(location.search)
   let chan = params.get("c").toLocaleLowerCase()
   data.spd = parseFloat(params.get("spd")) || data.spd
+  data.exp = parseFloat(params.get("exp") || data.exp)
   data.vol = parseFloat(params.get("vol") || data.vol)
   data.fot = parseFloat(params.get("fot")) || data.fot
   data.fit = parseFloat(params.get("fit")) || data.fit
@@ -165,6 +166,7 @@ function autoFill() {
   document.getElementsByName("c")[0].value = data.clist[0]
   if (document.getElementById("usrInp")) document.getElementById("usrInp").value = data.username || ""
   document.getElementsByName("spd")[0].value = data.spd
+  document.getElementsByName("exp")[0].value = data.exp
   document.getElementsByName("vol")[0].value = data.vol
   document.getElementsByName("fit")[0].value = data.fit
   document.getElementsByName("fot")[0].value = data.fot
@@ -182,7 +184,7 @@ function update() {
     skipUpdate = 4
     lastEl = document.createElement("p")
     lastEl.classList.add("new")
-    lastEl.style.maxHeight = "0"
+    // lastEl.style.maxHeight = "0"
     chatContainer.appendChild(lastEl)
     lastHTML = ""
     lastHeight = -1
@@ -202,23 +204,21 @@ function update() {
         skipUpdate = 1
       }
     }
-    if (lastHeight != lastEl.clientHeight) {
-      lastHeight = lastEl.clientHeight
-      lastEl.style.maxHeight = lastEl.clientHeight + 32 + "px"
-    } else {
-      lastEl.style.maxHeight = lastEl.clientHeight + 1 + "px"
-    }
+    // if (lastHeight != lastEl.clientHeight) {
+    //   lastHeight = lastEl.clientHeight
+    //   lastEl.style.maxHeight = lastEl.clientHeight + 32 + "px"
+    // } else {
+    //   lastEl.style.maxHeight = lastEl.clientHeight + 1 + "px"
+    // }
     if (scrollEnabled) scrollBy(0, lastEl.clientHeight)
   } else if (lastHTML) {
-    setTimeout(
-      (el) => {
-        el.style.maxHeight = null
-        scrollBy(0, el.offsetHeight)
-      },
-      1024,
-      lastEl
-    )
-    lastEl.classList.add("old")
+    setTimeout(el => {
+      // el.style.maxHeight = null
+      scrollBy(0, el.offsetHeight)
+    }, 1024, lastEl)
+    if (data.exp > 0) setTimeout(el => {
+      el.classList.add("old")
+    }, 1000 * data.exp, lastEl)
     lastEl = null
   } else if (queue.length) {
     let tags = queue[0].tags
@@ -364,8 +364,10 @@ function escapeHtml(str) {
 }
 
 function loadData() {
-  data = JSON.parse(localStorage.getItem(absUrl("save.json"))) || data
+  let d = JSON.parse(localStorage.getItem(absUrl("save.json"))) || {}
+  for (let k in d) data[k] = d[k]
 }
+
 function saveData() {
   localStorage.setItem(absUrl("save.json"), JSON.stringify(data, null, 2))
 }

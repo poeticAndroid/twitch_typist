@@ -5,9 +5,9 @@ article p {
 }
 
 .old {
-  transition: 1s 16s;
+  transition: 2s 1s ease-in-out, opacity 1s;
 
   opacity: 0;
   padding: 0 1em;
-  max-height: 0;
+  height: 0;
 }
