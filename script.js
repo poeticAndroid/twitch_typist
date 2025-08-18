@@ -181,7 +181,7 @@ function autoFill() {
 function update() {
   if (scrollEnabled) scrollBy(0, scrollSpeed + 1)
   if (lastScroll != window.scrollY) lastScroll = window.scrollY
-  else scrollSpeed = 1
+  else scrollSpeed = 2
 
   if (skipUpdate > 0) {
     skipUpdate--
