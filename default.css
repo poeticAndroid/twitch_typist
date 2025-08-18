@@ -18,8 +18,7 @@ article {
 }
 
 article p {
-  transition-duration: 0.25s;
-  transition-timing-function: linear;
+  transition: padding 1s;
   clear: both;
   padding: 0.25em 1em;
   overflow: hidden;
@@ -40,7 +39,7 @@ img {
 }
 
 .big.avatar {
-  display: inline-block;
+  display: block;
   min-width: 1.5em;
   font-size: 1.8em;
   text-align: center;

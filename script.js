@@ -12,8 +12,11 @@ let data = { clist: ["alveussanctuary"], spd: 25, exp: 15, vol: 50, fot: 10, fit
   queue = [],
   lastEl,
   lastHTML,
-  lastHeight,
   lastChars = [],
+  lastScroll,
+  lastHeight,
+  scrollSpeed = 1,
+  maxHeight = 0,
   scrollEnabled = true,
   snd,
   skipUpdate,
@@ -176,18 +179,24 @@ function autoFill() {
 }
 
 function update() {
+  if (scrollEnabled) scrollBy(0, scrollSpeed + 1)
+  if (lastScroll != window.scrollY) lastScroll = window.scrollY
+  else scrollSpeed = 1
+
   if (skipUpdate > 0) {
     skipUpdate--
   } else if (!lastEl) {
     kbdSnd.volume = 0
     entSnd.play()
     skipUpdate = 4
-    lastEl = document.createElement("p")
-    lastEl.classList.add("new")
-    // lastEl.style.maxHeight = "0"
-    chatContainer.appendChild(lastEl)
+    maxHeight = 0
+    scrollSpeed++
     lastHTML = ""
     lastHeight = -1
+    lastEl = document.createElement("p")
+    lastEl.classList.add("new")
+    lastEl.style.maxHeight = maxHeight + "px"
+    chatContainer.appendChild(lastEl)
     while (document.getElementById("chat").childElementCount > 32)
       document.getElementById("chat").removeChild(document.getElementById("chat").firstElementChild)
   } else if (lastChars.length) {
@@ -204,20 +213,20 @@ function update() {
         skipUpdate = 1
       }
     }
-    // if (lastHeight != lastEl.clientHeight) {
-    //   lastHeight = lastEl.clientHeight
-    //   lastEl.style.maxHeight = lastEl.clientHeight + 32 + "px"
-    // } else {
-    //   lastEl.style.maxHeight = lastEl.clientHeight + 1 + "px"
-    // }
-    if (scrollEnabled) scrollBy(0, lastEl.clientHeight)
+    if (lastHeight != lastEl.clientHeight) {
+      lastHeight = lastEl.clientHeight
+      maxHeight += scrollSpeed
+      lastEl.style.maxHeight = maxHeight + "px"
+    }
   } else if (lastHTML) {
-    setTimeout(el => {
-      // el.style.maxHeight = null
-      scrollBy(0, el.offsetHeight)
+    lastEl.style.transition = "max-height 1s 0s"
+    lastEl.style.maxHeight = "max-content"
+    setTimeout(lastEl => {
+      lastEl.style.transition = null
+      lastEl.style.maxHeight = null
     }, 1024, lastEl)
-    if (data.exp > 0) setTimeout(el => {
-      el.classList.add("old")
+    if (data.exp > 0) setTimeout(lastEl => {
+      lastEl.classList.add("old")
     }, 1000 * data.exp, lastEl)
     lastEl = null
   } else if (queue.length) {
