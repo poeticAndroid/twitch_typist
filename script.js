@@ -1,11 +1,11 @@
-/* global tmi, Howl */
+/* global tmi, Howl, urlfs */
 
 const chatContainer = document.getElementById("chat"),
   kbdSnd = document.getElementById("kbdSnd"),
   spcSnd = document.getElementById("spcSnd"),
   entSnd = document.getElementById("entSnd")
 
-let data = { clist: ["alveussanctuary"], spd: 25, exp: 15, vol: 50, fot: 10, fit: 60, css: '@import url("./default.css");', shameless_plug_delay: 1 },
+let data = urlfs.readJson("save.json?default"),
   autoFillTO,
   emotes = {},
   users = {},
@@ -27,7 +27,12 @@ let data = { clist: ["alveussanctuary"], spd: 25, exp: 15, vol: 50, fot: 10, fit
   fadeOutRate = 0.1
 
 function init() {
-  loadData()
+  if (!data) return urlfs.addListenerToPath("./", e => location.reload())
+  urlfs.delete("save.json?default")
+  urlfs.readJson("save.json?default")
+  let userData = urlfs.readJson("save.json")
+  if (userData) for (let k in userData) data[k] = userData[k]
+
   document.getElementsByName("c")[0].addEventListener("focus", clearOnFocus)
   document.getElementById("cssPreset").addEventListener("change", (e) => {
     let lines = document.getElementsByName("css")[0].value.split("\n")
@@ -38,12 +43,10 @@ function init() {
   document.getElementById("resetBtn").addEventListener("click", resetData)
   if (document.getElementById("usrInp")) {
     document.getElementById("usrInp").addEventListener("change", (e) => {
-      data.username = e.target.value || null
-      saveData()
+      editData().username = e.target.value || null
     })
     document.getElementById("pwInp").addEventListener("change", (e) => {
-      data.password = e.target.value || null
-      saveData()
+      editData().password = e.target.value || null
     })
   }
 
@@ -60,14 +63,14 @@ function init() {
 
   let params = new URLSearchParams(location.search)
   let chan = params.get("c").toLocaleLowerCase()
-  data.spd = parseFloat(params.get("spd")) || data.spd
-  data.exp = parseFloat(params.get("exp") || data.exp)
-  data.vol = parseFloat(params.get("vol") || data.vol)
-  data.fot = parseFloat(params.get("fot")) || data.fot
-  data.fit = parseFloat(params.get("fit")) || data.fit
-  data.css = params.get("css") || data.css
-  data.woke = !!(params.get("woke"))
-  data.shameless_plug_delay = parseFloat(params.get("shameless_plug_delay")) || data.shameless_plug_delay || 1
+  editData().spd = parseFloat(params.get("spd")) || data.spd
+  editData().exp = parseFloat(params.get("exp") || data.exp)
+  editData().vol = parseFloat(params.get("vol") || data.vol)
+  editData().fot = parseFloat(params.get("fot")) || data.fot
+  editData().fit = parseFloat(params.get("fit")) || data.fit
+  editData().css = params.get("css") || data.css
+  editData().woke = !!(params.get("woke"))
+  editData().shameless_plug_delay = parseFloat(params.get("shameless_plug_delay")) || data.shameless_plug_delay || 1
 
   if (chan.includes("?")) chan = chan.slice(0, chan.indexOf("?"))
   if (chan.includes("/")) chan = chan.slice(chan.lastIndexOf("/") + 1)
@@ -107,14 +110,13 @@ function init() {
   data.clist = data.clist.filter((id) => id != chan)
   client.on("join", (channel, username, self) => {
     if (data.clist.includes(chan)) return
-    data.clist = data.clist.filter((id) => id != chan)
-    data.clist.unshift(chan)
+    editData().clist = data.clist.filter((id) => id != chan)
+    editData().clist.unshift(chan)
     queue.push({
       user: { username: "[info]" },
       tags: { username: "[info]" },
       message: `Connected to @${chan}`,
     })
-    saveData()
   })
   client.on("messagedeleted", (channel, username, deletedMessage, userstate) => {
     console.log(channel, username, deletedMessage, userstate)
@@ -148,14 +150,11 @@ function init() {
     while (queue.length > 8) queue.pop()
   })
 
-  saveData()
   document.body.classList.remove("start")
   setInterval(update, interval)
 
   setTimeout(() => {
-    loadData()
-    data.shameless_plug_delay *= 2
-    saveData()
+    editData().shameless_plug_delay *= 2
     queue.push({
       user: { username: "[info]" },
       tags: { username: "[info]" },
@@ -325,7 +324,7 @@ function clearOnFocus(e) {
 
 function resetData() {
   if (confirm("Are you sure you want to\nreset all data to default values?")) {
-    localStorage.removeItem(absUrl("save.json"))
+    urlfs.delete("./")
     location.reload(true)
   }
 }
@@ -372,13 +371,8 @@ function escapeHtml(str) {
   return _absUrl_a.innerHTML
 }
 
-function loadData() {
-  let d = JSON.parse(localStorage.getItem(absUrl("save.json"))) || {}
-  for (let k in d) data[k] = d[k]
-}
-
-function saveData() {
-  localStorage.setItem(absUrl("save.json"), JSON.stringify(data, null, 2))
+function editData() {
+  return data = urlfs.editJson("save.json")
 }
 init()
 
