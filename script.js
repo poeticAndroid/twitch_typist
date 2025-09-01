@@ -27,11 +27,12 @@ let data = urlfs.readJson("save.json?default"),
   fadeOutRate = 0.1
 
 function init() {
-  if (!data) return urlfs.addListenerToPath("./", e => location.reload())
+  let userData = urlfs.readJson("save.json")
+  if (!(data && userData)) return urlfs.addListenerToPath("./", e => location.reload())
   urlfs.delete("save.json?default")
   urlfs.readJson("save.json?default")
-  let userData = urlfs.readJson("save.json") || {}
   for (let k in userData) data[k] = userData[k]
+  urlfs.writeJson("save.json", data)
 
   document.getElementsByName("c")[0].addEventListener("focus", clearOnFocus)
   document.getElementById("cssPreset").addEventListener("change", (e) => {
@@ -60,11 +61,15 @@ function init() {
 
   if (!location.search) return
   document.body.style.overflow = "hidden"
+  if (data.v != 3) {
+    urlfs.writeJson("save.json", { clist: userData.clist, v: 3 })
+    return location.reload(true)
+  }
 
   let params = new URLSearchParams(location.search)
   let chan = params.get("c").toLocaleLowerCase()
   editData().spd = parseFloat(params.get("spd")) || data.spd
-  editData().exp = parseFloat(params.get("exp") || data.exp) || 15
+  editData().exp = parseFloat(params.get("exp") || data.exp)
   editData().vol = parseFloat(params.get("vol") || data.vol)
   editData().fot = parseFloat(params.get("fot")) || data.fot
   editData().fit = parseFloat(params.get("fit")) || data.fit
@@ -372,7 +377,7 @@ function escapeHtml(str) {
 }
 
 function editData() {
-  return data = urlfs.editJson("save.json") || {}
+  return data = urlfs.editJson("save.json")
 }
 init()
 
