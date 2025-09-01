@@ -64,7 +64,7 @@ function init() {
   let params = new URLSearchParams(location.search)
   let chan = params.get("c").toLocaleLowerCase()
   editData().spd = parseFloat(params.get("spd")) || data.spd
-  editData().exp = parseFloat(params.get("exp") || data.exp)
+  editData().exp = parseFloat(params.get("exp") || data.exp) || 15
   editData().vol = parseFloat(params.get("vol") || data.vol)
   editData().fot = parseFloat(params.get("fot")) || data.fot
   editData().fit = parseFloat(params.get("fit")) || data.fit
