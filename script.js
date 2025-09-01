@@ -30,8 +30,8 @@ function init() {
   if (!data) return urlfs.addListenerToPath("./", e => location.reload())
   urlfs.delete("save.json?default")
   urlfs.readJson("save.json?default")
-  let userData = urlfs.readJson("save.json")
-  if (userData) for (let k in userData) data[k] = userData[k]
+  let userData = urlfs.readJson("save.json") || {}
+  for (let k in userData) data[k] = userData[k]
 
   document.getElementsByName("c")[0].addEventListener("focus", clearOnFocus)
   document.getElementById("cssPreset").addEventListener("change", (e) => {
