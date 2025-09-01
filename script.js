@@ -372,7 +372,7 @@ function escapeHtml(str) {
 }
 
 function editData() {
-  return data = urlfs.editJson("save.json")
+  return data = urlfs.editJson("save.json") || {}
 }
 init()
 
