@@ -15,8 +15,9 @@ let data,
   lastChars = [],
   lastScroll,
   lastHeight,
-  scrollSpeed = 1,
   maxHeight = 0,
+  nextScroll = 0,
+  scrollSpeed = 1,
   scrollEnabled = true,
   snd,
   skipUpdate,
@@ -36,6 +37,8 @@ async function init() {
     switch (userData.v) {
       case 3:
         delete userData.exp
+      case 4:
+        delete userData.spd
     }
     delete userData.v
   }
@@ -163,6 +166,7 @@ async function init() {
 
   document.body.classList.remove("start")
   setInterval(update, interval)
+  autoScroll()
 
   setTimeout(() => {
     editData().shameless_plug_delay *= 2
@@ -188,10 +192,24 @@ function autoFill() {
   kbdSnd.volume = spcSnd.volume = entSnd.volume = 0
 }
 
-function update() {
-  if (scrollEnabled) scrollBy(0, scrollSpeed + 1)
+function autoScroll(t = 0) {
+  requestAnimationFrame(autoScroll)
+  if (t < nextScroll) return
+  nextScroll += 1000 / 60
+  if (nextScroll < t) nextScroll = t
+
+  if (scrollEnabled) scrollBy(0, Math.max(1, scrollSpeed))
   if (lastScroll != window.scrollY) lastScroll = window.scrollY
-  else scrollSpeed = 2
+  else scrollSpeed = 0
+
+  if (lastHeight != lastEl.clientHeight) {
+    lastHeight = lastEl.clientHeight
+    maxHeight++
+    lastEl.style.maxHeight = maxHeight + "px"
+  }
+}
+
+function update() {
 
   if (skipUpdate > 0) {
     skipUpdate--
@@ -222,11 +240,6 @@ function update() {
         snd.play()
         skipUpdate = 1
       }
-    }
-    if (lastHeight != lastEl.clientHeight) {
-      lastHeight = lastEl.clientHeight
-      maxHeight += scrollSpeed
-      lastEl.style.maxHeight = maxHeight + "px"
     }
   } else if (lastHTML) {
     lastEl.style.transition = "max-height 1s 0s"

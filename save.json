@@ -2,12 +2,12 @@
     "clist": [
         "alveussanctuary"
     ],
-    "spd": 25,
+    "spd": 30,
     "exp": 15,
     "vol": 50,
     "fot": 10,
     "fit": 60,
     "css": "@import url(\"./default.css\");",
     "shameless_plug_delay": 1,
-    "v": 4
+    "v": 5
 }
