@@ -2,14 +2,15 @@
 
 article p {
   opacity: 1;
-  height: auto;
-  height: calc-size(auto);
+  max-height: 100vh;
+  max-height: max-content;
+  max-height: calc-size(auto);
 }
 
 .old {
-  transition: height 8s 1s, padding 4s 1s, opacity 1s 0s;
+  transition: max-height 8s 1s, padding 4s 1s, opacity 1s 0s;
 
   opacity: 0;
   padding: 0 1em;
-  height: 0;
+  max-height: 0;
 }
