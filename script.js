@@ -5,7 +5,7 @@ const chatContainer = document.getElementById("chat"),
   spcSnd = document.getElementById("spcSnd"),
   entSnd = document.getElementById("entSnd")
 
-let data = urlfs.readJson("save.json?default"),
+let data,
   autoFillTO,
   emotes = {},
   users = {},
@@ -26,11 +26,22 @@ let data = urlfs.readJson("save.json?default"),
   fadeInRate = 0.1,
   fadeOutRate = 0.1
 
-function init() {
-  let userData = urlfs.readJson("save.json")
-  if (!(data && userData)) return urlfs.addListenerToPath("./", e => location.reload())
+async function init() {
   urlfs.delete("save.json?default")
-  urlfs.readJson("save.json?default")
+  await urlfs.preload("save.json", "save.json?default")
+  data = urlfs.readJson("save.json?default")
+  let userData = urlfs.readJson("save.json")
+  if (userData.v != data.v) {
+    userData.v = userData.v || 0
+    switch (userData.v) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        delete userData.exp
+    }
+    delete userData.v
+  }
   for (let k in userData) data[k] = userData[k]
   urlfs.writeJson("save.json", data)
 
@@ -61,10 +72,6 @@ function init() {
 
   if (!location.search) return
   document.body.style.overflow = "hidden"
-  if (data.v != 3) {
-    urlfs.writeJson("save.json", { clist: userData.clist, v: 3 })
-    return location.reload(true)
-  }
 
   let params = new URLSearchParams(location.search)
   let chan = params.get("c").toLocaleLowerCase()
