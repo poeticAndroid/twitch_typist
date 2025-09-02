@@ -32,11 +32,8 @@ async function init() {
   data = urlfs.readJson("save.json?default")
   let userData = urlfs.readJson("save.json")
   if (userData.v != data.v) {
-    userData.v = userData.v || 0
+    userData.v = userData.v || 3
     switch (userData.v) {
-      case 0:
-      case 1:
-      case 2:
       case 3:
         delete userData.exp
     }
