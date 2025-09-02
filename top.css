@@ -2,6 +2,8 @@
 
 article p {
   opacity: 1;
+  height: auto;
+  height: calc-size(auto);
 }
 
 .old {
