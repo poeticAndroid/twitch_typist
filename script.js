@@ -101,12 +101,14 @@ async function init() {
     entSnd.play()
     entSnd.volume = maxvol
     skipUpdate = 8
-    scrollEnabled = false
-    document.body.style.overflow = null
+
     setTimeout((e) => {
       scrollEnabled = true
       document.body.style.overflow = "hidden"
-    }, 1024 * 64)
+    }, 1024 * (scrollEnabled ? 64 : 1))
+    scrollEnabled = false
+    document.body.style.overflow = null
+
     if (data.woke) navigator.wakeLock.request("screen")
   })
 
