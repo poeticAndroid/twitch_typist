@@ -34,6 +34,7 @@ async function init() {
   let userData = urlfs.readJson("save.json")
   if (userData.v != data.v) {
     delete userData.spd
+    delete userData.exp
     delete userData.vol
     delete userData.fot
     delete userData.fit
