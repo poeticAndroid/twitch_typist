@@ -6,7 +6,7 @@ article p {
 }
 
 .old {
-  transition: max-height 8s, padding 16s, opacity 4s;
+  transition: all 1s, max-height 8s, padding 16s, opacity 4s;
 
   opacity: 0;
   padding: 0 1em;

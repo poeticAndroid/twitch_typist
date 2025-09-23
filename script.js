@@ -229,6 +229,7 @@ function update() {
     lastHTML += lastChars.shift()
     lastEl.innerHTML = lastHTML
     lastEl.classList.remove("new")
+    lastEl.classList.add("typing")
     if (snd) {
       if (sndv > 0) sndv -= fadeOutRate
       kbdSnd.volume = spcSnd.volume = entSnd.volume = Math.min(Math.max(0, sndv), maxvol)
@@ -245,6 +246,7 @@ function update() {
     setTimeout(lastEl => {
       lastEl.style.transition = null
       lastEl.style.maxHeight = null
+      lastEl.classList.remove("typing")
     }, 1024, lastEl)
     if (data.exp > 0) setTimeout(lastEl => {
       lastEl.classList.add("old")
