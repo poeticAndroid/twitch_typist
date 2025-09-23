@@ -34,6 +34,7 @@ async function init() {
   let userData = urlfs.readJson("save.json")
   if (userData.v != data.v) {
     delete userData.spd
+    delete userData.scr
     delete userData.red
     delete userData.exp
     delete userData.vol
@@ -75,6 +76,7 @@ async function init() {
   let params = new URLSearchParams(location.search)
   let chan = params.get("c").toLocaleLowerCase()
   editData().spd = parseFloat(params.get("spd")) || data.spd
+  editData().scr = parseFloat(params.get("scr")) || data.scr
   editData().red = parseFloat(params.get("red")) || data.red
   editData().exp = parseFloat(params.get("exp") || data.exp)
   editData().vol = parseFloat(params.get("vol") || data.vol)
@@ -183,6 +185,7 @@ function autoFill() {
   document.getElementsByName("c")[0].value = data.clist[0]
   if (document.getElementById("usrInp")) document.getElementById("usrInp").value = data.username || ""
   document.getElementsByName("spd")[0].value = data.spd
+  document.getElementsByName("scr")[0].value = data.scr
   document.getElementsByName("red")[0].value = data.red
   document.getElementsByName("exp")[0].value = data.exp
   document.getElementsByName("vol")[0].value = data.vol
@@ -200,7 +203,7 @@ function autoScroll(t = 0) {
   if (nextScroll < t) nextScroll = t
 
   if (!scrollEnabled) return scrollSpeed = 0
-  scrollBy(0, Math.max(1, scrollSpeed))
+  scrollBy(0, Math.max(data.scr, scrollSpeed))
   if (lastScroll < 0) {
     lastScroll++
   } else if (lastScroll != window.scrollY) {
@@ -222,7 +225,7 @@ function autoScroll(t = 0) {
 
   if (lastHeight != lastEl.clientHeight) {
     lastHeight = lastEl.clientHeight
-    maxHeight++
+    maxHeight += data.scr
     lastEl.style.maxHeight = maxHeight + "px"
   }
 }

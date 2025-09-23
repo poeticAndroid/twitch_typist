@@ -49,6 +49,10 @@
       <label>Speed:</label>
       <input type="number" min="0" name="spd" title="Characters per second" />
     </p>
+    <p title="How fast to scroll down">
+      <label>Scroll speed:</label>
+      <input type="number" min="0" name="scr" title="Pixels per 1/60 second" />
+    </p>
     <p title="How long a new message is `.reading` (if supported by the CSS)">
       <label>Read time:</label>
       <input type="number" min="0" name="red" title="Duration in seconds" />
@@ -82,7 +86,7 @@
         <option>@import url("top.css");</option>
         <option>@import url("bottom.css");</option>
         <option>@import url("default.css");.big.avatar{ display:none;}.avatar{ display:none;}</option>
-        <option>@import url("default.css");.unread{ font-size:2em;}</option>
+        <option>@import url("default.css");.new,.unread{ font-size:2em;}</option>
         <option>@import url("default.css");.old{ opacity:0.125;}</option>
       </select>
     </p>
