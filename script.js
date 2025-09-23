@@ -241,12 +241,12 @@ function update() {
       }
     }
   } else if (lastHTML) {
-    lastEl.style.transition = "max-height 1s 0s"
+    lastEl.style.transition = "all 1s 0s"
     lastEl.style.maxHeight = "max-content"
+    lastEl.classList.remove("typing")
     setTimeout(lastEl => {
       lastEl.style.transition = null
       lastEl.style.maxHeight = null
-      lastEl.classList.remove("typing")
     }, 1024, lastEl)
     if (data.exp > 0) setTimeout(lastEl => {
       lastEl.classList.add("old")
