@@ -48,3 +48,8 @@ img {
 .mention {
   text-wrap: nowrap;
 }
+
+.carret {
+  background-color: #fff;
+  padding: 0 .25em;
+}

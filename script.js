@@ -207,12 +207,15 @@ function autoScroll(t = 0) {
     lastScroll = window.scrollY
   } else {
     scrollSpeed = 0
-    let unread = document.querySelector(".unread")
-    if (unread && !unread.classList.contains("typing")) {
+    let unread = document.querySelector(".enter")
+    if (unread) {
       lastScroll = -30
-      unread.classList.remove("unread")
+      unread.classList.remove("enter")
       unread.classList.add("reading")
-      setTimeout(e => { unread.classList.remove("reading") }, 1000 * data.red)
+      setTimeout(e => {
+        unread.classList.remove("reading")
+        unread.classList.remove("unread")
+      }, 1000 * data.red)
       if (data.exp > 0) setTimeout(e => { unread.classList.add("old") }, 1000 * data.exp)
     }
   }
@@ -243,10 +246,10 @@ function update() {
       document.getElementById("chat").removeChild(document.getElementById("chat").firstElementChild)
   } else if (lastChars.length) {
     lastHTML += lastChars.shift()
-    lastEl.innerHTML = lastHTML
+    lastEl.innerHTML = lastHTML + '<span class="carret">'
     lastEl.classList.remove("new")
-    lastEl.classList.add("typing")
     lastEl.classList.add("unread")
+    lastEl.classList.add("typing")
     if (snd) {
       if (sndv > 0) sndv -= fadeOutRate
       kbdSnd.volume = spcSnd.volume = entSnd.volume = Math.min(Math.max(0, sndv), maxvol)
@@ -258,9 +261,11 @@ function update() {
       }
     }
   } else if (lastHTML) {
+    lastEl.innerHTML = lastHTML
     lastEl.style.transition = "all 1s 0s"
     lastEl.style.maxHeight = "max-content"
     lastEl.classList.remove("typing")
+    lastEl.classList.add("enter")
     setTimeout(lastEl => {
       lastEl.style.transition = null
       lastEl.style.maxHeight = null
