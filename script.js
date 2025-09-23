@@ -34,6 +34,7 @@ async function init() {
   let userData = urlfs.readJson("save.json")
   if (userData.v != data.v) {
     delete userData.spd
+    delete userData.red
     delete userData.exp
     delete userData.vol
     delete userData.fot
@@ -74,6 +75,7 @@ async function init() {
   let params = new URLSearchParams(location.search)
   let chan = params.get("c").toLocaleLowerCase()
   editData().spd = parseFloat(params.get("spd")) || data.spd
+  editData().red = parseFloat(params.get("red")) || data.red
   editData().exp = parseFloat(params.get("exp") || data.exp)
   editData().vol = parseFloat(params.get("vol") || data.vol)
   editData().fot = parseFloat(params.get("fot")) || data.fot
@@ -181,6 +183,7 @@ function autoFill() {
   document.getElementsByName("c")[0].value = data.clist[0]
   if (document.getElementById("usrInp")) document.getElementById("usrInp").value = data.username || ""
   document.getElementsByName("spd")[0].value = data.spd
+  document.getElementsByName("red")[0].value = data.red
   document.getElementsByName("exp")[0].value = data.exp
   document.getElementsByName("vol")[0].value = data.vol
   document.getElementsByName("fit")[0].value = data.fit
@@ -196,9 +199,23 @@ function autoScroll(t = 0) {
   nextScroll += 1000 / 60
   if (nextScroll < t) nextScroll = t
 
-  if (scrollEnabled) scrollBy(0, Math.max(1, scrollSpeed))
-  if (lastScroll != window.scrollY) lastScroll = window.scrollY
-  else scrollSpeed = 0
+  if (!scrollEnabled) return scrollSpeed = 0
+  scrollBy(0, Math.max(1, scrollSpeed))
+  if (lastScroll < 0) {
+    lastScroll++
+  } else if (lastScroll != window.scrollY) {
+    lastScroll = window.scrollY
+  } else {
+    scrollSpeed = 0
+    let unread = document.querySelector(".unread")
+    if (unread && !unread.classList.contains("typing")) {
+      lastScroll = -30
+      unread.classList.remove("unread")
+      unread.classList.add("reading")
+      setTimeout(e => { unread.classList.remove("reading") }, 1000 * data.red)
+      if (data.exp > 0) setTimeout(e => { unread.classList.add("old") }, 1000 * data.exp)
+    }
+  }
 
   if (lastHeight != lastEl.clientHeight) {
     lastHeight = lastEl.clientHeight
@@ -221,7 +238,6 @@ function update() {
     lastHeight = -1
     lastEl = document.createElement("p")
     lastEl.classList.add("new")
-    lastEl.style.maxHeight = maxHeight + "px"
     chatContainer.appendChild(lastEl)
     while (document.getElementById("chat").childElementCount > 32)
       document.getElementById("chat").removeChild(document.getElementById("chat").firstElementChild)
@@ -230,6 +246,7 @@ function update() {
     lastEl.innerHTML = lastHTML
     lastEl.classList.remove("new")
     lastEl.classList.add("typing")
+    lastEl.classList.add("unread")
     if (snd) {
       if (sndv > 0) sndv -= fadeOutRate
       kbdSnd.volume = spcSnd.volume = entSnd.volume = Math.min(Math.max(0, sndv), maxvol)
@@ -248,9 +265,6 @@ function update() {
       lastEl.style.transition = null
       lastEl.style.maxHeight = null
     }, 1024, lastEl)
-    if (data.exp > 0) setTimeout(lastEl => {
-      lastEl.classList.add("old")
-    }, 1000 * data.exp, lastEl)
     lastEl = null
   } else if (queue.length) {
     let tags = queue[0].tags

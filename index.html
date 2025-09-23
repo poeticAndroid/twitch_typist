@@ -49,6 +49,10 @@
       <label>Speed:</label>
       <input type="number" min="0" name="spd" title="Characters per second" />
     </p>
+    <p title="How long a new message is `.reading` (if supported by the CSS)">
+      <label>Read time:</label>
+      <input type="number" min="0" name="red" title="Duration in seconds" />
+    </p>
     <p title="How long until a new message becomes `.old` (if supported by the CSS)">
       <label>Expiration:</label>
       <input type="number" min="0" name="exp" title="Duration in seconds" />
@@ -78,7 +82,8 @@
         <option>@import url("top.css");</option>
         <option>@import url("bottom.css");</option>
         <option>@import url("default.css");.big.avatar{ display:none;}.avatar{ display:none;}</option>
-        <option>@import url("default.css");.typing{ font-size:2em;}.old{ font-size:0.5em;}</option>
+        <option>@import url("default.css");.new,.unread,.reading{ font-size:2em;}</option>
+        <option>@import url("default.css");.old{ font-size:0.5em;}</option>
       </select>
     </p>
     <p title="Custom CSS for the nerds">
