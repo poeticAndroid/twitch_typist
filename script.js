@@ -50,7 +50,7 @@ async function init() {
     let lines = document.getElementsByName("css")[0].value.split("\n")
     if (!lines[0].includes("@import")) lines.unshift("")
     lines[0] = e.target.value.replaceAll(";", ";\n").replaceAll("{", "{\n").replaceAll("}", "}\n")
-    document.getElementsByName("css")[0].value = lines.join("\n").trim() + "\n"
+    document.getElementsByName("css")[0].value = lines.join("\n").replaceAll("\n\n\n", "\n\n").trim() + "\n"
   })
   document.getElementById("resetBtn").addEventListener("click", resetData)
   if (document.getElementById("usrInp")) {
