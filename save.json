@@ -4,12 +4,12 @@
     ],
     "spd": 30,
     "scr": 1,
-    "red": 2,
+    "red": 4,
     "exp": 15,
     "vol": 50,
     "fot": 10,
     "fit": 60,
     "css": "@import url(\"./default.css\");",
     "shameless_plug_delay": 1,
-    "v": 9
+    "v": 10
 }

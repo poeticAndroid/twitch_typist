@@ -244,6 +244,7 @@ function update() {
     lastHeight = -1
     lastEl = document.createElement("p")
     lastEl.classList.add("new")
+    lastEl.classList.add("unread")
     chatContainer.appendChild(lastEl)
     while (document.getElementById("chat").childElementCount > 32)
       document.getElementById("chat").removeChild(document.getElementById("chat").firstElementChild)
