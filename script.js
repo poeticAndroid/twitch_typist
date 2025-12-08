@@ -28,22 +28,8 @@ let data,
   fadeOutRate = 0.1
 
 async function init() {
-  urlfs.delete("save.json?default")
-  await urlfs.preload("save.json", "save.json?default")
-  data = urlfs.readJson("save.json?default")
-  let userData = urlfs.readJson("save.json")
-  if (userData.v != data.v) {
-    delete userData.spd
-    delete userData.scr
-    delete userData.red
-    delete userData.exp
-    delete userData.vol
-    delete userData.fot
-    delete userData.fit
-    delete userData.v
-  }
-  for (let k in userData) data[k] = userData[k]
-  urlfs.writeJson("save.json", data)
+  await urlfs.updateDefaults("save.json")
+  data = urlfs.readJson("save.json")
 
   document.getElementsByName("c")[0].addEventListener("focus", clearOnFocus)
   document.getElementById("cssPreset").addEventListener("change", (e) => {
@@ -74,17 +60,21 @@ async function init() {
   document.body.style.overflow = "hidden"
 
   let params = new URLSearchParams(location.search)
+  let defaults = urlfs.readJson("save.json?default")
+  for (let key in defaults) params.delete(key, defaults[key])
+  if (location.search.replace("?", "") != params.toString()) location.replace("?" + params.toString())
   let chan = params.get("c").toLocaleLowerCase()
-  editData().spd = parseFloat(params.get("spd")) || data.spd
-  editData().scr = parseFloat(params.get("scr")) || data.scr
-  editData().red = parseFloat(params.get("red")) || data.red
-  editData().exp = parseFloat(params.get("exp") || data.exp)
-  editData().vol = parseFloat(params.get("vol") || data.vol)
-  editData().fot = parseFloat(params.get("fot")) || data.fot
-  editData().fit = parseFloat(params.get("fit")) || data.fit
-  editData().css = params.get("css") || data.css
-  editData().woke = !!(params.get("woke"))
-  editData().shameless_plug_delay = parseFloat(params.get("shameless_plug_delay")) || data.shameless_plug_delay || 1
+  editData()
+  data.spd = parseFloat(params.get("spd")) || data.spd
+  data.scr = parseFloat(params.get("scr")) || data.scr
+  data.red = parseFloat(params.get("red")) || data.red
+  data.exp = parseFloat(params.get("exp") || data.exp)
+  data.vol = parseFloat(params.get("vol") || data.vol)
+  data.fot = parseFloat(params.get("fot")) || data.fot
+  data.fit = parseFloat(params.get("fit")) || data.fit
+  data.css = params.get("css") || data.css
+  data.woke = !!(params.get("woke"))
+  data.shameless_plug_delay = parseFloat(params.get("shameless_plug_delay")) || data.shameless_plug_delay || 1
 
   if (chan.includes("?")) chan = chan.slice(0, chan.indexOf("?"))
   if (chan.includes("/")) chan = chan.slice(chan.lastIndexOf("/") + 1)
@@ -371,7 +361,7 @@ function clearOnFocus(e) {
 
 function resetData() {
   if (confirm("Are you sure you want to\nreset all data to default values?")) {
-    urlfs.delete("./")
+    urlfs.rm("./")
     location.reload(true)
   }
 }
