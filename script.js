@@ -213,6 +213,7 @@ function autoScroll(t = 0) {
     }
   }
 
+  if (!lastEl) return
   if (lastHeight != lastEl.clientHeight) {
     lastHeight = lastEl.clientHeight
     maxHeight += data.scr
