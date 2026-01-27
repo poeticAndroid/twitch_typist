@@ -65,14 +65,14 @@ async function init() {
   if (location.search.replace("?", "") != params.toString()) location.replace("?" + params.toString())
   let chan = params.get("c").toLocaleLowerCase()
   editData()
-  data.spd = parseFloat(params.get("spd")) || data.spd
-  data.scr = parseFloat(params.get("scr")) || data.scr
-  data.red = parseFloat(params.get("red")) || data.red
-  data.exp = parseFloat(params.get("exp") || data.exp)
-  data.vol = parseFloat(params.get("vol") || data.vol)
-  data.fot = parseFloat(params.get("fot")) || data.fot
-  data.fit = parseFloat(params.get("fit")) || data.fit
-  data.css = params.get("css") || data.css
+  data.spd = parseFloat(params.get("spd")) || defaults.spd
+  data.scr = parseFloat(params.get("scr")) || defaults.scr
+  data.red = parseFloat(params.get("red")) || defaults.red
+  data.exp = parseFloat(params.get("exp") || defaults.exp)
+  data.vol = parseFloat(params.get("vol") || defaults.vol)
+  data.fot = parseFloat(params.get("fot")) || defaults.fot
+  data.fit = parseFloat(params.get("fit")) || defaults.fit
+  data.css = params.get("css") || defaults.css
   data.woke = !!(params.get("woke"))
   data.shameless_plug_delay = parseFloat(params.get("shameless_plug_delay")) || data.shameless_plug_delay || 1
 
@@ -98,6 +98,7 @@ async function init() {
     skipUpdate = 8
 
     setTimeout((e) => {
+      sndv = maxvol
       scrollEnabled = true
       document.body.style.overflow = "hidden"
     }, 1024 * (scrollEnabled ? 64 : 1))
